@@ -130,7 +130,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <!-- Use Java 23 as specified by <maven.compiler.release> -->
+                    <!-- Use Java 21 as specified by <maven.compiler.release> -->
                     <source>${maven.compiler.release}</source>
                     <target>${maven.compiler.release}</target>
                     <compilerArgs>
@@ -156,7 +156,7 @@
                 </executions>
                 <!-- (Optional) explicitly point to your main class; Boot can usually detect it -->
                 <configuration>
-                    <mainClass>com.mycompany.hrs.HrsApplication</mainClass>
+                    <mainClass>com.mycompany.discountms.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
