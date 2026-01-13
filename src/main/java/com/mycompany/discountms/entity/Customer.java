@@ -26,7 +26,7 @@ import jakarta.persistence.*;
  * @author Yaqoub Alshatti
  */
 @Entity
-@Table(name = "customers", schema = "HRS")
+@Table(name = "customers", schema = "discount")
 public class Customer {
 
     @Id

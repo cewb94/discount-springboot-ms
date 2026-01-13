@@ -16,6 +16,7 @@
 
     <dependencies>
 
+        <!-- Spring Boot -->
         <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
@@ -36,16 +37,17 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>3.5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>3.5.0</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- Thymeleaf-->
+        <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>3.5.0</version>
+        </dependency> -->
 
         <!-- PostgreSQL driver -->
         <dependency>
@@ -92,7 +94,8 @@
             <version>3.5.0</version>
         </dependency> -->
 
-        <!--trying this for @PreAuthorized-->
+        <!--trying
+        this for @PreAuthorized-->
         <!-- <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
