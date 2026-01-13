@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
@@ -16,20 +15,20 @@
     </properties>
 
     <dependencies>
-        
+
         <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>3.5.0</version>
             <type>jar</type>
         </dependency>-->
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.5.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -54,7 +53,7 @@
             <artifactId>postgresql</artifactId>
             <version>42.6.0</version>
         </dependency>
-        
+
         <!-- Jackson Databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -76,7 +75,7 @@
             <version>6.2.7</version>
             <type>jar</type>
         </dependency>
-        
+
         <!-- Javax persistence -->
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -87,11 +86,11 @@
 
 
         <!-- Spring Security -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>3.5.0</version>
-        </dependency>
+        </dependency> -->
 
         <!--trying this for @PreAuthorized-->
         <!-- <dependency>
@@ -118,13 +117,13 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency> -->
-        
+
     </dependencies>
-    
-   
+
+
     <build>
         <plugins>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -139,8 +138,8 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-            
-            
+
+
             <!-- 1) Spring Boot plugin: force the “repackage” goal on package -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -159,7 +158,33 @@
                     <mainClass>com.mycompany.discountms.App</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- JaCoCo plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+
+                <executions>
+                    <!-- Attach JaCoCo agent to tests -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate coverage report -->
+                    <execution>
+                        <id>jacoco-coverage-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-    
+
 </project>
