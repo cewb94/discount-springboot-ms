@@ -1,13 +1,10 @@
 package com.mycompany.discountms.dto.request;
 
-import java.math.BigDecimal;
+import java.util.List;
 
-import com.mycompany.discountms.enums.ItemCategory;
-
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  *
@@ -16,64 +13,36 @@ import jakarta.validation.constraints.NotBlank;
 public class BillRequest {
 
     /*
-        No constructor needed because Jackson will just use getters and setters which i included in spring-boot-starter-web
+     * No constructor needed because Jackson will just use getters and setters which i included in spring-boot-starter-web
      */
 
-    @NotNull(message = "Item ID is required")
-    private Long itmId;  // Reference existing item from DB
+    @NotNull(message = "Customer ID is required")
+    private Long customerId;
 
-    @NotBlank(message = "Item name is optional if item id is provided")
-    private String itmName;  // Optional if itmId is used, but validated if present
+    @NotEmpty(message = "At least one bill line is required")
+    private List<@Valid BillLineRequest> lines;
 
-    @NotNull(message = "Item category is required")
-    private ItemCategory itmCategory;
-
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.01", message = "Price must be greater than 0")
-    private BigDecimal price;
-
-    @NotNull(message = "Quantity is required")
-    @Min(value = 1, message = "Quantity must be at least 1")
-    private Integer quantity;
-
-
-    public Long getItmId() {
-        return itmId;
+    public BillRequest() {
     }
 
-    public void setItmId(Long itmId) {
-        this.itmId = itmId;
+    public BillRequest(Long customerId, List<BillLineRequest> lines) {
+        this.customerId = customerId;
+        this.lines = lines;
     }
 
-    public String getItmName() {
-        return itmName;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setItmName(String itmName) {
-        this.itmName = itmName;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public ItemCategory getItmCategory() {
-        return itmCategory;
+    public List<BillLineRequest> getLines() {
+        return lines;
     }
 
-    public void setItmCategory(ItemCategory itmCategory) {
-        this.itmCategory = itmCategory;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setLines(List<BillLineRequest> lines) {
+        this.lines = lines;
     }
 }
