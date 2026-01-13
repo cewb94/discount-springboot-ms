@@ -1,6 +1,9 @@
 package com.mycompany.discountms.entity;
 
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
 // import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,14 +15,120 @@ package com.mycompany.discountms.entity;
 // import static org.assertj.core.api.Assertions.assertThat;
 // import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 import com.mycompany.discountms.enums.CustomerType;
 
+import jakarta.persistence.*;
+
+
+/**
+ *
+ * @author Yaqoub Alshatti
+ */
+@Entity
+@Table(name = "customers", schema = "HRS")
 public class Customer {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cus_id")
+    private Long cusId;
+
+    @Column(name = "cus_full_name", nullable = false)
+    private String cusFullName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cus_type", nullable = false)
+    private CustomerType cusType;
+
+    @Column(name = "cus_registration_date", nullable = false)
+    private LocalDate cusRegistrationDate;
+
+    @Column(name = "cus_blacklisted", nullable = false)
+    private Boolean cusBlacklisted;
+
+    @Column(name = "created_at")
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
+
+    public Customer() {
+    }
+
+    public Customer(String cusFullName, CustomerType cusType, LocalDate cusRegistrationDate, Boolean cusBlacklisted) {
+        this.cusFullName = cusFullName;
+        this.cusType = cusType;
+        this.cusRegistrationDate = cusRegistrationDate;
+        this.cusBlacklisted = cusBlacklisted;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        OffsetDateTime now = OffsetDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = OffsetDateTime.now();
+    }
+
+    public Long getCusId() {
+        return cusId;
+    }
+
+    public void setCusId(Long cusId) {
+        this.cusId = cusId;
+    }
+
+    public String getCusFullName() {
+        return cusFullName;
+    }
+
+    public void setCusFullName(String cusFullName) {
+        this.cusFullName = cusFullName;
+    }
+
+    public CustomerType getCusType() {
+        return cusType;
+    }
+
+    public void setCusType(CustomerType cusType) {
+        this.cusType = cusType;
+    }
+
+    public LocalDate getCusRegistrationDate() {
+        return cusRegistrationDate;
+    }
+
+    public void setCusRegistrationDate(LocalDate cusRegistrationDate) {
+        this.cusRegistrationDate = cusRegistrationDate;
+    }
+
+    public Boolean getCusBlacklisted() {
+        return cusBlacklisted;
+    }
+
+    public void setCusBlacklisted(Boolean cusBlacklisted) {
+        this.cusBlacklisted = cusBlacklisted;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
 }
