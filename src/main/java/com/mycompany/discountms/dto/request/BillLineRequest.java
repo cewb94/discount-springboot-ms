@@ -8,6 +8,7 @@ import jakarta.validation.constraints.*;
 
 /**
  * Adding this here for more realistic bill request with actual lines
+ * This does not map to any entity class nor does it map to a table in the database
  * @author Yaqoub Alshatti
  */
 public class BillLineRequest {

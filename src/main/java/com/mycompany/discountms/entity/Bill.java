@@ -13,7 +13,7 @@ import com.mycompany.discountms.enums.CustomerType;
 
 /**
  * This entity holds the calculated amounts after applying the appropriate discounts
- * 
+ * Bill entity still does not have line items and more reflects the respone JSON for simplicity
  * @author Yaqoub
  */
 @Entity
