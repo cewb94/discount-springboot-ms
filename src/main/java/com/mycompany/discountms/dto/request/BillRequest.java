@@ -9,12 +9,20 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ *
+ * @author Yaqoub Alshatti
+ */
 public class BillRequest {
+
+    /*
+        No constructor needed because Jackson will just use getters and setters which i included in spring-boot-starter-web
+     */
 
     @NotNull(message = "Item ID is required")
     private Long itmId;  // Reference existing item from DB
 
-    @NotBlank(message = "Item name is required")
+    @NotBlank(message = "Item name is optional if item id is provided")
     private String itmName;  // Optional if itmId is used, but validated if present
 
     @NotNull(message = "Item category is required")
@@ -28,7 +36,6 @@ public class BillRequest {
     @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 
-    /* ===== Getters & Setters ===== */
 
     public Long getItmId() {
         return itmId;
