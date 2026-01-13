@@ -4,6 +4,8 @@ package com.mycompany.discountms.entity;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 // import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +51,8 @@ public class Customer {
 
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
+    
+    @UpdateTimestamp
 
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
@@ -113,22 +117,6 @@ public class Customer {
 
     public void setCusBlacklisted(Boolean cusBlacklisted) {
         this.cusBlacklisted = cusBlacklisted;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(OffsetDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
 }
