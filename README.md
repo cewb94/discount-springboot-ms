@@ -15,7 +15,7 @@ docker compose up
 
 
 To test, use:\
-mvn clean test -Dspring.profiles.active=<env>
+mvn clean test -Dspring.profiles.active=dev
 
 ___________________API___________________
 
@@ -32,20 +32,24 @@ localhost:port/api/bills/add                -> this one is POST
 
 
 sample bill request JSON to use in body of POST HTTP\
-{\
-  "customerId": 1,\
-  "lines": [\
-    {\
-      "itmId": 1,\
-      "itmCategory": "GROCERY",\
-      "price": 2.00,\
-      "quantity": 3\
-    },\
-    {\
-      "itmId": 11,\
-      "itmCategory": "NON_GROCERY",\
-      "price": 10.00,\
-      "quantity": 1\
-    }\
-  ]\
-}\
+
+
+**Request Body**
+```json
+{
+  "customerId": 1,
+  "lines": [
+    {
+      "itmId": 1,
+      "itmCategory": "GROCERY",
+      "price": 2.00,
+      "quantity": 3
+    },
+    {
+      "itmId": 11,
+      "itmCategory": "NON_GROCERY",
+      "price": 10.00,
+      "quantity": 1
+    }
+  ]
+}
