@@ -37,7 +37,7 @@ In a cloud setup, the database must be created separately (for example using Ama
 The application container does not include PostgreSQL. After creating the database, run the provided `.sql` initialization script manually and configure the database connection using ECS environment variables.
 
 
-________________________API________________________
+## API
 
 DEV port: 8080, Docker port: 70
 
