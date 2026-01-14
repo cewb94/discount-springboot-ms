@@ -1,0 +1,52 @@
+version: "2.4" # Required so that depends_on: condition: service_healthy actually waits
+
+services:
+  postresql:
+    image: postgres:16
+    container_name: discount-postgresql
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: discount
+      POSTGRES_USER: dis_adm
+      POSTGRES_PASSWORD: dis_adm_2026
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./pg16_discount_consolidated.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+    # No "command:" override—Postgres uses the default port 5432 inside the container.
+    ports:
+      # Map host port 5442 -> container port 5432
+      - "5442:5432"
+
+    # Healthcheck ensures Postgres is actually listening on 5432 before we start "app".
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U dis_adm -d discount -p 5432" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: boot-render-deploy:latest
+    container_name: discount-app
+
+    # Only start "app" after both Postgres and Redis pass their healthchecks
+    depends_on:
+      postresql:
+        condition: service_healthy
+
+    restart: on-failure
+
+    environment:
+      # Ensures Spring Boot loads src/main/resources/application-docker.properties
+      SPRING_PROFILES_ACTIVE: docker
+
+    ports:
+      - "70:8080"
+
+volumes:
+  postgres_data:
