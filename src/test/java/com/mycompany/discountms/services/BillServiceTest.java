@@ -35,7 +35,6 @@ class BillServiceTest {
     @InjectMocks
     BillService billService;
 
-    
     /*
     Expected BillResponse JSON:
 
@@ -148,10 +147,13 @@ class BillServiceTest {
 
     /*
      * Cover LOYAL branch (5% off non-grocery)
+     *
+     * IMPORTANT: Service requires loyal registration date older than 2 years.
      */
     @Test
     void createAndSaveBill_loyal_applies5PercentOnNonGrocery_only() {
-        Customer c = new Customer("Test Loyal", CustomerType.LOYAL, LocalDate.now(), false);
+        // ✅ minimal fix: make customer eligible by being registered > 2 years ago
+        Customer c = new Customer("Test Loyal", CustomerType.LOYAL, LocalDate.now().minusYears(3), false);
         c.setCusId(2L);
 
         when(customerRepository.findById(2L)).thenReturn(Optional.of(c));
@@ -252,5 +254,4 @@ class BillServiceTest {
 
         verify(billRepository).findById(1L);
     }
-
 }
