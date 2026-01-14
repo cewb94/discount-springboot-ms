@@ -1,5 +1,6 @@
 package com.mycompany.discountms.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -8,10 +9,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+// import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+// import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,8 +30,33 @@ class BillControllerTest {
     @Autowired MockMvc mvc;
     @Autowired ObjectMapper objectMapper;
 
-    @MockBean BillService billService;
+    @MockitoBean BillService billService;
 
+
+    /*
+    POST /api/bills/add
+
+    Request:
+    {
+        "customerId": 1,
+        "lines": [
+            { "itmId": 1,  "itmCategory": "GROCERY",     "price": 2.00,  "quantity": 3 },
+            { "itmId": 11, "itmCategory": "NON_GROCERY", "price": 10.00, "quantity": 1 }
+        ]
+    }
+
+    Expected Response:
+    {
+        "originalAmount": 16.00,
+        "groceryAmount": 6.00,
+        "nonGroceryAmount": 10.00,
+        "appliedPercentageDiscount": "EMPLOYEE",
+        "percentageDiscountAmount": 3.00,
+        "flatDiscountAmount": 0.00,
+        "totalDiscount": 3.00,
+        "netPayableAmount": 13.00
+    }
+    */
     @Test
     void postAdd_returnsBillResponse() throws Exception {
         BillResponse response = new BillResponse(
