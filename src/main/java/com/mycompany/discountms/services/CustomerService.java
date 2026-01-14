@@ -2,7 +2,7 @@ package com.mycompany.discountms.services;
 
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.cache.annotation.CachePut;
 // import org.springframework.cache.annotation.Cacheable;
@@ -27,17 +27,24 @@ public class CustomerService {
     }
     
     @Async
-    // @CachePut(cacheNames = "customers")
-    public CompletableFuture<List<Customer>> getAllCustomers() {
-        List<Customer> all = cusRepo.findAll();
-        return CompletableFuture.completedFuture(all);
+    public List<Customer> getAllCustomers() {
+        return cusRepo.findAll();
     }
 
-    public CompletableFuture<Customer> getCustomerById(Long id) {
-        return CompletableFuture.supplyAsync(() ->
-                cusRepo.findById(id).orElse(null));
+    // @CachePut(cacheNames = "customers")
+    // public CompletableFuture<List<Customer>> getAllCustomers() {
+    //     List<Customer> all = cusRepo.findAll();
+    //     return CompletableFuture.completedFuture(all);
+    // }
+
+    @Async
+    public Customer getCustomerById(Long id) {
+        return cusRepo.findById(id).orElse(null);
     }
     
-    
+    // public CompletableFuture<Customer> getCustomerById(Long id) {
+    //     return CompletableFuture.supplyAsync(() ->
+    //             cusRepo.findById(id).orElse(null));
+    // }
 }
 

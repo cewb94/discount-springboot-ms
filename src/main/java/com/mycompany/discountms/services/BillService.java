@@ -2,7 +2,11 @@ package com.mycompany.discountms.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +30,7 @@ public class BillService {
     private final BillRepository billRepository;
     private final CustomerRepository customerRepository;
 
+    @Autowired
     public BillService(BillRepository billRepository, CustomerRepository customerRepository) {
         this.billRepository = billRepository;
         this.customerRepository = customerRepository;
@@ -41,14 +46,15 @@ public class BillService {
         BigDecimal nonGroceryTotal = BigDecimal.ZERO;
 
         for (BillLineRequest line : req.getLines()) {
-            
+
             // Using something like a builder pattern chain of methods to return
             // line total = line item price times line item quantity
             BigDecimal lineTotal = line.getPrice()
                     .multiply(BigDecimal.valueOf(line.getQuantity()))
                     .setScale(2, RoundingMode.HALF_UP);
 
-            // just tracking the total for lines (line-totals=price*qty) based on item category
+            // just tracking the total for lines (line-totals=price*qty) based on item
+            // category
             if (line.getItmCategory() == ItemCategory.GROCERY) {
                 // tally up grocery line totals
                 groceryTotal = groceryTotal.add(lineTotal);
@@ -93,7 +99,7 @@ public class BillService {
                 .max(BigDecimal.ZERO)
                 .setScale(2, RoundingMode.HALF_UP);
 
-        // 5) Persist Bill entity
+        // 5) Persist Bill entity. This use JPA to store new bill record in the database
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setGrossTotal(grossTotal);
@@ -119,7 +125,42 @@ public class BillService {
                 percentDiscountAmount,
                 flatDiscountAmount,
                 totalDiscount,
-                netPayable
-        );
+                netPayable);
+    }
+
+    // must wrap in BillResponse, otherwise Spring Boot will freak out
+    // since we already used Request & Response DTO
+    // we use map to convert Bill entity to BillResponse DTO object
+    public List<BillResponse> getAllBills() {
+        return this.billRepository.findAll()
+                .stream()
+                .map(b -> new BillResponse(
+                        b.getGrossTotal(),
+                        b.getGroceryTotal(),
+                        b.getNonGroceryTotal(),
+                        b.getPercentDiscountType() == null ? "NONE" : b.getPercentDiscountType().name(),
+                        b.getPercentDiscountAmount(),
+                        b.getFlatDiscountAmount(),
+                        b.getTotalDiscount(),
+                        b.getNetPayable()))
+                .collect(Collectors.toList());
+    }
+
+    public BillResponse getBillById(Long id) {
+        Bill b = billRepository.findById(id).orElse(null);
+
+        if (b == null)
+            return null;
+        else {
+            return new BillResponse(
+                    b.getGrossTotal(),
+                    b.getGroceryTotal(),
+                    b.getNonGroceryTotal(),
+                    b.getPercentDiscountType() == null ? "NONE" : b.getPercentDiscountType().name(),
+                    b.getPercentDiscountAmount(),
+                    b.getFlatDiscountAmount(),
+                    b.getTotalDiscount(),
+                    b.getNetPayable());
+        }
     }
 }
