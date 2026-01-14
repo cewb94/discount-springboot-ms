@@ -70,13 +70,17 @@ public class BillService {
         CustomerType percentType = null;
         BigDecimal percentRate = BigDecimal.ZERO;
 
-        if (customer.getCusType() == CustomerType.EMPLOYEE) {
+        boolean eligibleEmployee = customer.getCusType() == CustomerType.EMPLOYEE;
+        boolean eligibleAffiliate = customer.getCusType() == CustomerType.AFFILIATE;
+        boolean eligibleLoyal = isLoyalOver2Years(customer);
+
+        if (eligibleEmployee) {
             percentType = CustomerType.EMPLOYEE;
             percentRate = new BigDecimal(EMP_DISCOUNT_PERCENT);
-        } else if (customer.getCusType() == CustomerType.AFFILIATE) {
+        } else if (eligibleAffiliate) {
             percentType = CustomerType.AFFILIATE;
             percentRate = new BigDecimal(AFF_DISCOUNT_PERCENT);
-        } else if (customer.getCusType() == CustomerType.LOYAL) {
+        } else if (eligibleLoyal) {
             percentType = CustomerType.LOYAL;
             percentRate = new BigDecimal(LOY_DISCOUNT_PERCENT);
         }
@@ -163,4 +167,12 @@ public class BillService {
                     b.getNetPayable());
         }
     }
+
+    // helper method
+    private boolean isLoyalOver2Years(Customer customer) {
+        if (customer.getCusRegistrationDate() == null)
+            return false;
+        return customer.getCusRegistrationDate().isBefore(java.time.LocalDate.now().minusYears(2));
+    }
+
 }
