@@ -14,10 +14,16 @@ docker compose up --build\
 docker compose up
 
 
-To test, use:\
-mvn clean test -Dspring.profiles.active=dev
+## Testing & Code Coverage
 
-___________________API___________________
+Run unit tests:\
+mvn test
+
+Run unit tests + generate JaCoCo coverage report:\
+mvn verify
+
+
+________________________API________________________
 
 DEV port: 8080, Docker port: 70
 
@@ -31,7 +37,7 @@ localhost:port/api/bills/id/{id}\
 localhost:port/api/bills/add                -> this one is POST
 
 
-sample bill request JSON to use in body of POST HTTP\
+sample bill request JSON to use in body of POST HTTP
 
 
 **Request Body**
