@@ -23,6 +23,20 @@ Run unit tests + generate JaCoCo coverage report:\
 mvn verify
 
 
+## Cloud Deployment (AWS ECS)
+
+This service can be deployed to AWS ECS as a standalone application container.  
+The provided `docker-compose.yml` is intended for local development only and will not work in ECS, as ECS does not run Docker Compose setups.
+
+To build the application image, package the Spring Boot app and build the Docker image:
+
+mvn clean package  
+docker build -t discount-springboot-ms .
+
+In a cloud setup, the database must be created separately (for example using Amazon RDS for PostgreSQL).  
+The application container does not include PostgreSQL. After creating the database, run the provided `.sql` initialization script manually and configure the database connection using ECS environment variables.
+
+
 ________________________API________________________
 
 DEV port: 8080, Docker port: 70
